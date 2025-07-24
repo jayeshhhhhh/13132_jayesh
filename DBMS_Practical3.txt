@@ -1,0 +1,88 @@
+Name :- Jayesh Suresh Chaudhari         Roll No:- 13132    Date:-17-7-25
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -h localhost -u root -p
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 8.0.43 MySQL Community Server - GPL
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> create database bank;
+Query OK, 1 row affected (0.01 sec)
+mysql> use bank;
+Database changed
+create table customer( customerid INT NOT NULL PRIMARY KEY, Name VARCHAR(100) NOT NULL, Address VARCHAR(255) NOT NULL, contactno VARCHAR(15) NOT NULL);
+Query OK, 0 rows affected (0.02 sec)
+mysql> desc customer;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| customerid | int          | NO   | PRI | NULL    |       |
+| Name       | varchar(100) | NO   |     | NULL    |       |
+| Address    | varchar(255) | NO   |     | NULL    |       |
+| contactno  | varchar(15)  | NO   |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+     
+Mysql> create table account(Account_no INT NOT NULL UNIQUE, Account_type VARCHAR(50) NOT NULL, Balance DECIMAL(10,2) NOT NULL,customerid INT NOT NULL, PRIMARY KEY (Account_no), FOREIGN KEY (customerid) REFERENCES customer(customerid));
+Query OK, 0 rows affected (0.06 sec)
+mysql> desc account;
++--------------+---------------+------+-----+---------+-------+
+| Field        | Type          | Null | Key | Default | Extra |
++--------------+---------------+------+-----+---------+-------+
+| Account_no   | int           | NO   | PRI | NULL    |       |
+| Account_type | varchar(50)   | NO   |     | NULL    |       |
+| Balance      | decimal(10,2) | NO   |     | NULL    |       |
+| customerid   | int           | NO   | MUL | NULL    |       |
++--------------+---------------+------+-----+---------+-------+ 
+ 
+mysql> create table `transaction`( Transaction_id INT AUTO_INCREMENT PRIMARY KEY,  Account_no INT NOT NULL, Txn_Date DATE NOT NULL, Txn_Time TIME NOT NULL, Amount DECIMAL(10,2) NOT NULL,FOREIGN KEY (Account_no) REFERENCES account(Account_no) );
+Query OK, 0 rows affected (0.04 sec)
+mysql> desc transaction;
++----------------+---------------+------+-----+---------+----------------+
+| Field          | Type          | Null | Key | Default | Extra          |
++----------------+---------------+------+-----+---------+----------------+
+| Transaction_id | int           | NO   | PRI | NULL    | auto_increment |
+| Account_no     | int           | NO   | MUL | NULL    |                |
+| Txn_Date       | date          | NO   |     | NULL    |                |
+| Txn_Time       | time          | NO   |     | NULL    |                |
+| Amount         | decimal(10,2) | NO   |     | NULL    |                |
++----------------+---------------+------+-----+---------+----------------+
+ 
+mysql> create user 'amit10'@localhost identified by 'amit26';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant select on bankdb.customer to 'amit10'@localhost;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant select on bankdb.account to 'amit10'@localhost;
+Query OK, 0 rows affected (0.01 sec)
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| customerid | int          | NO   | PRI | NULL    |       |
+| Name       | varchar(100) | NO   |     | NULL    |       |
+| Address    | varchar(255) | NO   |     | NULL    |       |
+| contactno  | varchar(15)  | NO   |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+mysql> create user 'manager10'@localhost identified by 'manager26';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant all privileges on bank.* to 'manager10'@localhost;
+Query OK, 0 rows affected (0.01 sec)
+mysql> desc customer;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| customerid | int          | NO   | PRI | NULL    |       |
+| Name       | varchar(100) | NO   |     | NULL    |       |
+| Address    | varchar(255) | NO   |     | NULL    |       |
+| contactno  | varchar(15)  | NO   |     | NULL    |       |
+| Email      | varchar(20)  | YES  |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+
+
+ 
+
