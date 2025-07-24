@@ -1,0 +1,129 @@
+Name :- Jayesh Suresh Chaudhari         Roll No:- 13132    Date:-17-7-25
+
+Microsoft Windows [Version 10.0.22631.5335]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -h localhost -u root -p
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.43 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use bank;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_bank |
++----------------+
+| account        |
+| accountinfo    |
+| custacc        |
+| customer       |
+| customer_info  |
+| transaction    |
++----------------+
+6 rows in set (0.02 sec)
+
+mysql> select * from customer;
+Empty set (0.03 sec)
+
+mysql> select * from customer_info;
++------------+-----------+---------+------------+---------------+
+| CustomerID | Name      | Address | phone      | Email         |
++------------+-----------+---------+------------+---------------+
+|        101 | jayesh    | pune    | 9860076665 | abc@gmail.com |
+|        102 | kamlesh   | pune    | 9860076663 | xyz@gmail.com |
+|        103 | rushikesh | mumai   |  986007543 | pyq@gmail.com |
++------------+-----------+---------+------------+---------------+
+3 rows in set (0.03 sec)
+
+mysql> alter table customer_info add column age int(20);
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> select * from customer_info;
++------------+-----------+---------+------------+---------------+------+
+| CustomerID | Name      | Address | phone      | Email         | age  |
++------------+-----------+---------+------------+---------------+------+
+|        101 | jayesh    | pune    | 9860076665 | abc@gmail.com | NULL |
+|        102 | kamlesh   | pune    | 9860076663 | xyz@gmail.com | NULL |
+|        103 | rushikesh | mumai   |  986007543 | pyq@gmail.com | NULL |
++------------+-----------+---------+------------+---------------+------+
+3 rows in set (0.00 sec)
+
+mysql> update customer_info  set age=23;
+Query OK, 3 rows affected (0.01 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from customer_info;
++------------+-----------+---------+------------+---------------+------+
+| CustomerID | Name      | Address | phone      | Email         | age  |
++------------+-----------+---------+------------+---------------+------+
+|        101 | jayesh    | pune    | 9860076665 | abc@gmail.com |   23 |
+|        102 | kamlesh   | pune    | 9860076663 | xyz@gmail.com |   23 |
+|        103 | rushikesh | mumai   |  986007543 | pyq@gmail.com |   23 |
++------------+-----------+---------+------------+---------------+------+
+3 rows in set (0.00 sec)
+
+mysql> alter table customer_info modify phone numeric(20);
+Query OK, 3 rows affected (0.04 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer_info;
++------------+-----------+---------+------------+---------------+------+
+| CustomerID | Name      | Address | phone      | Email         | age  |
++------------+-----------+---------+------------+---------------+------+
+|        101 | jayesh    | pune    | 9860076665 | abc@gmail.com |   23 |
+|        102 | kamlesh   | pune    | 9860076663 | xyz@gmail.com |   23 |
+|        103 | rushikesh | mumai   |  986007543 | pyq@gmail.com |   23 |
++------------+-----------+---------+------------+---------------+------+
+3 rows in set (0.00 sec)
+
+mysql> update customer_info set phone=9876665543 where name='rushikesh';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from customer_info;
++------------+-----------+---------+------------+---------------+------+
+| CustomerID | Name      | Address | phone      | Email         | age  |
++------------+-----------+---------+------------+---------------+------+
+|        101 | jayesh    | pune    | 9860076665 | abc@gmail.com |   23 |
+|        102 | kamlesh   | pune    | 9860076663 | xyz@gmail.com |   23 |
+|        103 | rushikesh | mumai   | 9876665543 | pyq@gmail.com |   23 |
++------------+-----------+---------+------------+---------------+------+
+3 rows in set (0.00 sec)
+
+mysql> insert into customer_info values(104,'swapnil','satara',9670333890,'sss@gmail.com',20);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from customer_info;
++------------+-----------+---------+------------+---------------+------+
+| CustomerID | Name      | Address | phone      | Email         | age  |
++------------+-----------+---------+------------+---------------+------+
+|        101 | jayesh    | pune    | 9860076665 | abc@gmail.com |   23 |
+|        102 | kamlesh   | pune    | 9860076663 | xyz@gmail.com |   23 |
+|        103 | rushikesh | mumai   | 9876665543 | pyq@gmail.com |   23 |
+|        104 | swapnil   | satara  | 9670333890 | sss@gmail.com |   20 |
++------------+-----------+---------+------------+---------------+------+
+4 rows in set (0.00 sec)
+
+mysql> delete from customer_info where customerid= 104;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from customer_info;
++------------+-----------+---------+------------+---------------+------+
+| CustomerID | Name      | Address | phone      | Email         | age  |
++------------+-----------+---------+------------+---------------+------+
+|        101 | jayesh    | pune    | 9860076665 | abc@gmail.com |   23 |
+|        102 | kamlesh   | pune    | 9860076663 | xyz@gmail.com |   23 |
+|        103 | rushikesh | mumai   | 9876665543 | pyq@gmail.com |   23 |
++------------+-----------+---------+------------+---------------+------+
+3 rows in set (0.00 sec)
