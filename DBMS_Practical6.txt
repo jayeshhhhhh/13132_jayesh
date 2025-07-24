@@ -1,0 +1,117 @@
+Name :- Jayesh Suresh Chaudhari         Roll No:- 13132    Date:-24-7-25
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -h localhost -u root -p
+Enter password: **********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 18
+Server version: 8.0.43 MySQL Community Server - GPL
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> create database bank;
+Query OK, 1 row affected (0.01 sec)
+mysql> use bank;
+Database changed
+mysql> create table Customer_info (CustomerID int(10) not NULL primary key, Name varchar(30),  Address varchar(30), Phone numeric(10,2), Email varchar(20));
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> desc customer_info;
++------------+---------------+------+-----+---------+-------+
+| Field      | Type          | Null | Key | Default | Extra |
++------------+---------------+------+-----+---------+-------+
+| CustomerID | int           | NO   | PRI | NULL    |       |
+| Name       | varchar(30)   | YES  |     | NULL    |       |
+| Address    | varchar(30)   | YES  |     | NULL    |       |
+| Phone      | decimal(10,2) | YES  |     | NULL    |       |
+| Email      | varchar(20)   | YES  |     | NULL    |       |
++------------+---------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> CREATE TABLE Accountinfo ( AccountID INT PRIMARY KEY NOT NULL, CustomerID INT, AccountType VARCHAR(20),Balance INT,CreatedDate DATE,FOREIGN KEY (CustomerID) REFERENCES customer_info(CustomerID));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc accountinfo;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| AccountID   | int         | NO   | PRI | NULL    |       |
+| CustomerID  | int         | YES  | MUL | NULL    |       |
+| AccountType | varchar(20) | YES  |     | NULL    |       |
+| Balance     | int         | YES  |     | NULL    |       |
+| CreatedDate | date        | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+mysql> insert into customer_info values(101,'jayesh','pune','9860076665',"abc@gmail.com");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer_info values(102,'kamlesh','pune','9860076663',"xyz@gmail.com");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into customer_info values(103,'rushikesh','mumai','986007543',"pyq@gmail.com");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from customer_info;
++------------+-----------+---------+------------+---------------+
+| CustomerID | Name      | Address | phone      | Email         |
++------------+-----------+---------+------------+---------------+
+|        101 | jayesh    | pune    | 9860076665 | abc@gmail.com |
+|        102 | kamlesh   | pune    | 9860076663 | xyz@gmail.com |
+|        103 | rushikesh | mumai   |  986007543 | pyq@gmail.com |
++------------+-----------+---------+------------+---------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into accountinfo values(1011,101,'saving','40000',"2019-7-23");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into accountinfo values(1012,102,'saving','45000',"2020-7-25");
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into accountinfo values(1013,103,'saving','50000',"2021-8-24");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from accountinfo;
++-----------+------------+-------------+---------+-------------+
+| AccountID | CustomerID | AccountType | Balance | CreatedDate |
++-----------+------------+-------------+---------+-------------+
+|      1011 |        101 | saving      |   40000 | 2019-07-23  |
+|      1012 |        102 | saving      |   45000 | 2020-07-25  |
+|      1013 |        103 | saving      |   50000 | 2021-08-24  |
++-----------+------------+-------------+---------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> create view custacc as select name,accountid,balance,accounttype from customer_info c, accountinfo a where c.customerid=a.customerid;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from custacc;
++-----------+-----------+---------+-------------+
+| name      | accountid | balance | accounttype |
++-----------+-----------+---------+-------------+
+| jayesh    |      1011 |   40000 | saving      |
+| kamlesh   |      1012 |   45000 | saving      |
+| rushikesh |      1013 |   50000 | saving      |
++-----------+-----------+---------+-------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into custacc values( 'mahesh', 1014,45000,'saving');
+ERROR 1394 (HY000): Can not insert into join view 'bank.custacc' without fields list
+
+mysql> update custacc set balance=60000 where name='jayesh';
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from custacc;
++-----------+-----------+---------+-------------+
+| name      | accountid | balance | accounttype |
++-----------+-----------+---------+-------------+
+| jayesh    |      1011 |   60000 | saving      |
+| kamlesh   |      1012 |   45000 | saving      |
+| rushikesh |      1013 |   50000 | saving      |
++-----------+-----------+---------+-------------+
+3 rows in set (0.00 sec)
+
+
+
+ 
+
