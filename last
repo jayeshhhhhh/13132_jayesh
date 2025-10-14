@@ -1,0 +1,54 @@
+import com.mongodb.client.*;
+import org.bson.Document;
+import java.util.Scanner;
+
+public class MongoDBCrud {
+    public static void main(String[] args) {
+        MongoClient client = MongoClients.create("mongodb://localhost:27017");
+        MongoDatabase db = client.getDatabase("testdb");
+        MongoCollection<Document> collection = db.getCollection("users");
+        Scanner sc = new Scanner(System.in);
+        int choice;
+        do {
+            System.out.println("1.Add 2.View 3.Edit 4.Delete 5.Exit");
+            choice = sc.nextInt();
+            sc.nextLine();
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter ID: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter Name: ");
+                    String name = sc.nextLine();
+                    Document doc = new Document("id", id).append("name", name);
+                    collection.insertOne(doc);
+                    break;
+                case 2:
+                    MongoCursor<Document> cursor = collection.find().iterator();
+                    while (cursor.hasNext()) System.out.println(cursor.next().toJson());
+                    cursor.close();
+                    break;
+                case 3:
+                    System.out.print("Enter ID to edit: ");
+                    int editId = sc.nextInt();
+                    sc.nextLine();
+                    System.out.print("Enter New Name: ");
+                    String newName = sc.nextLine();
+                    collection.updateOne(new Document("id", editId), new Document("$set", new Document("name", newName)));
+                    break;
+                case 4:
+                    System.out.print("Enter ID to delete: ");
+                    int delId = sc.nextInt();
+                    sc.nextLine();
+                    collection.deleteOne(new Document("id", delId));
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    break;
+                default:
+                    System.out.println("Invalid choice");
+            }
+        } while (choice != 5);
+        client.close();
+    }
+}
