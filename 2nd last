@@ -1,0 +1,58 @@
+C:\Users\jayesh\Downloads\mongosh-2.5.8-win32-x64\bin>mongosh
+Current Mongosh Log ID: 68e8a92a8d8e96e602cebee9
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true
+Using MongoDB:          8.2.0
+Using Mongosh:          2.5.8
+
+test> use company;
+switched to db company
+
+company> db.employee.insertMany([
+... {eid:201,ename:'arjun',dept:'IT',city:'pune',salary:55000},
+... {eid:202,ename:'meena',dept:'HR',city:'mumbai',salary:48000},
+... {eid:203,ename:'sahil',dept:'IT',city:'nashik',salary:62000},
+... {eid:204,ename:'pooja',dept:'Finance',city:'pune',salary:58000},
+... {eid:205,ename:'amit',dept:'Finance',city:'mumbai',salary:67000},
+... {eid:206,ename:'tejas',dept:'IT',city:'nagpur',salary:49000},
+... {eid:207,ename:'neha',dept:'HR',city:'pune',salary:52000},
+... {eid:208,ename:'kiran',dept:'Finance',city:'nashik',salary:61000}
+... ]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68e8a96a8d8e96e602cebeea'),
+    '1': ObjectId('68e8a96a8d8e96e602cebeeb'),
+    '2': ObjectId('68e8a96a8d8e96e602cebeec'),
+    '3': ObjectId('68e8a96a8d8e96e602cebeed'),
+    '4': ObjectId('68e8a96a8d8e96e602cebeee'),
+    '5': ObjectId('68e8a96a8d8e96e602cebeef'),
+    '6': ObjectId('68e8a96a8d8e96e602cebef0'),
+    '7': ObjectId('68e8a96a8d8e96e602cebef1')
+  }
+}
+
+company> db.employee.find();
+[
+  { _id: ObjectId('68e8a96a8d8e96e602cebeea'), eid: 201, ename: 'arjun', dept: 'IT', city: 'pune', salary: 55000 },
+  { _id: ObjectId('68e8a96a8d8e96e602cebeeb'), eid: 202, ename: 'meena', dept: 'HR', city: 'mumbai', salary: 48000 },
+  { _id: ObjectId('68e8a96a8d8e96e602cebeec'), eid: 203, ename: 'sahil', dept: 'IT', city: 'nashik', salary: 62000 },
+  { _id: ObjectId('68e8a96a8d8e96e602cebeed'), eid: 204, ename: 'pooja', dept: 'Finance', city: 'pune', salary: 58000 },
+  { _id: ObjectId('68e8a96a8d8e96e602cebeee'), eid: 205, ename: 'amit', dept: 'Finance', city: 'mumbai', salary: 67000 },
+  { _id: ObjectId('68e8a96a8d8e96e602cebeef'), eid: 206, ename: 'tejas', dept: 'IT', city: 'nagpur', salary: 49000 },
+  { _id: ObjectId('68e8a96a8d8e96e602cebef0'), eid: 207, ename: 'neha', dept: 'HR', city: 'pune', salary: 52000 },
+  { _id: ObjectId('68e8a96a8d8e96e602cebef1'), eid: 208, ename: 'kiran', dept: 'Finance', city: 'nashik', salary: 61000 }
+]
+
+company> var map=function(){emit(this.dept,this.salary)};
+company> var reduce=function(dept,salaries){return Array.sum(salaries)};
+company> db.employee.mapReduce(map,reduce,{out:'dept_total_salary'});
+DeprecationWarning: Collection.mapReduce() is deprecated. Use an aggregation instead.
+See https://mongodb.com/docs/manual/core/map-reduce for details.
+{ result: 'dept_total_salary', ok: 1 }
+
+company> db.dept_total_salary.find();
+[
+  { _id: 'Finance', value: 186000 },
+  { _id: 'HR', value: 100000 },
+  { _id: 'IT', value: 166000 }
+]
